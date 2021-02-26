@@ -1,0 +1,253 @@
+{% extends 'dashboard/base2.html' %}
+
+{% block content %}
+
+<!-- Navbar -->
+<nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+  <div class="container-fluid">
+    <!-- Brand -->
+    <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="/my_account">MY ACCOUNT</a>
+    <!-- Form -->
+    <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto" method="get" action="{% url 'search_record' %}">
+      <div class="form-group mb-0">
+        <div class="input-group input-group-alternative">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-search"></i></span>
+          </div>
+          <input class="form-control" name="q" placeholder="Search Record" type="text" >
+        </div>
+      </div>
+    </form>
+    <!-- User -->
+    <ul class="navbar-nav align-items-center d-none d-md-flex">
+      <li class="nav-item dropdown">
+        <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <div class="media align-items-center">
+            <span class="avatar avatar-sm rounded-circle">
+              {% if data.profile_pic %}
+              <img src="/media/{{data.profile_pic}}" style="height:40px;width:40px;border-radius:50%">
+              {% else %}
+              <img src="/static/ishwar.jpg" style="height:40px;width:40px;border-radius:50%">
+              {% endif %}
+            </span>
+            <div class="media-body ml-2 d-none d-lg-block">
+              <span class="mb-0 text-sm  font-weight-bold">
+                {{ request.user.username }}
+              </span>
+            </div>
+          </div>
+        </a>
+        <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
+          <div class=" dropdown-header noti-title">
+            <h6 class="text-overflow m-0">Welcome!</h6>
+          </div>
+          <a href="{% url 'edit_profile' %}" class="dropdown-item">
+            <i class="ni ni-single-02"></i>
+            <span>My profile</span>
+          </a>
+          <a href="{% url 'edit_profile' %}" class="dropdown-item">
+            <i class="ni ni-settings-gear-65"></i>
+            <span>Settings</span>
+          </a>
+          <a href="{% url 'change_password' %}"  class="dropdown-item">
+            <i class="ni ni-support-16"></i>
+            <span>Change_Password</span>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="{% url 'user_logout' %}" class="dropdown-item">
+            <i class="ni ni-user-run"></i>
+            <span>Logout</span>
+          </a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+<!-- End Navbar -->    
+<!-- Header -->
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" 
+style="min-height: 400px; background-image: url(/static/assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+<!-- Mask -->
+<span class="mask bg-gradient-default opacity-8"></span>
+<!-- Header container -->
+<div class="container-fluid d-flex align-items-center">
+  <div class="row">
+    <div class="col-lg-7 col-md-10">
+      <h1 class="display-2 text-white">Hello {{ request.user.username }}</h1>
+      <p class="text-white mt-0 mb-5">This is your profile page. You can see the progress you've made with your work and manage your projects or assigned tasks</p>
+      <a href="#!" class="btn btn-info">Edit profile</a>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="container-fluid mt--7">
+
+  <div class="row">
+    <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+      <div class="card card-profile shadow">
+        <div class="row justify-content-center">
+          <div class="col-lg-3 order-lg-2">
+           <div class="card-profile-image">
+            {% if data.profile_pic %}
+            <img src="/media/{{data.profile_pic}}" style="height:150px;width:150px;border-radius:50%">
+            {% else %}
+            <img src="/static/ishwar.jpg" style="height:150px;width:150px;border-radius:50%">
+            {% endif %}                        
+          </div> 
+        </div>
+      </div>
+      <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+        <div class="d-flex justify-content-between">
+          <a href="#" class="btn btn-sm btn-info mr-4">Connect</a>
+          <a href="#" class="btn btn-sm btn-default float-right">Message</a>
+        </div>
+      </div>
+      <div class="card-body pt-0 pt-md-4">
+        <div class="row">
+          <div class="col">
+            <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <h3>
+            {{ request.user.username }}
+          </h3>
+          <div class="h5 font-weight-300">
+            {{ request.user.email }}
+          </div>
+          <div class="h5 mt-4">
+            <i class="ni business_briefcase-24 mr-2"></i>Solution Manager - Creative Tim Officer
+          </div>
+          <div>
+            <i class="ni education_hat mr-2"></i>University of Computer Science
+          </div>
+          <hr class="my-4" />
+          <p>Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music.</p>
+          <a href="#">Show more</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xl-8 order-xl-1">
+    <div class="card bg-secondary shadow">
+      <div class="card-header bg-white border-0">
+        <div class="row align-items-center">
+          <div class="col-8">
+            <h3 class="mb-0">My account</h3>
+          </div>
+        <!-- <div class="col-4 text-right">
+          <a href="#!" class="btn btn-sm btn-primary">Settings</a>
+        </div> -->
+      </div>
+    </div>
+    
+    <div class="card-body">
+      <form name="myformcont" class="my-2" action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% if status %}
+        <div class="alert alert-primary">{{status}}</div>
+        {% endif %}    
+        <h6 class="heading-small text-muted mb-4">User information</h6>
+        <div class="pl-lg-4">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label class="form-control-label" for="input-username">First Name</label>
+                <input type="text" id="input-username" name="fname" class="form-control form-control-alternative" placeholder="Enter First Name" 
+                value="{{user.first_name}}">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label class="form-control-label" for="input-email">Last Name</label>
+                <input type="text" id="input-email" name="lname" class="form-control form-control-alternative" 
+                placeholder="Enter Last Name" value="{{user.last_name}}">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label class="form-control-label" for="input-first-name">Email</label>
+                <input type="email" name="email" id="input-first-name" class="form-control form-control-alternative" placeholder="Enter Name" value="{{user.email}}">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label class="form-control-label" for="input-last-name">Profile Picture</label>
+                <!-- <input type="file" name="image"  class="form-control form-control-alternative" > -->
+                <input type="file" class="form-control" name="image">
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <label class="form-control-label" for="input-last-name">Contact Number</label>
+                <input type="text" name="contact" id="input-last-name" class="form-control form-control-alternative"  placeholder="Enter Contact Number" value="{{data.contact_number}}" >
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label>Age (in years)</label>
+              <input type="number" class="form-control" name="age" placeholder="Enter Age" min="15" max="99" value="{{data.age}}">
+            </div>
+            <div class="col-md-6">
+              <label>City</label>
+              <input type="text" class="form-control" name="city" placeholder="Enter City" value="{{data.city}}">
+            </div>
+            <div class="col-md-6">
+              <label>Gender</label>
+              <select name="gender"  class="form-control">
+                <option value="Male">Male</option>
+
+                {% if data.gender == "Female" %}
+                <option value="Female" selected>Female</option>
+                {% else %}
+                <option value="Female">Female</option>
+                {% endif %}
+
+                {% if data.gender == "Others" %}
+                <option value="Others" selected>Others</option>
+                {% else %}
+                <option value="Others">Others</option>
+                {% endif %}
+              </select>
+            </div>
+          </div>
+        </div>
+        <hr class="my-4" />
+        <!-- Address -->
+        <h6 class="heading-small text-muted mb-4">Contact information</h6>
+        <div class="pl-lg-4">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="form-control-label" for="input-address">Address</label>
+                <input id="input-address" class="form-control form-control-alternative" placeholder="Home Address" name="occ" type="text" value="{{data.occupation}}">
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="my-4" />
+        <!-- Description -->
+        <h6 class="heading-small text-muted mb-4">About me</h6>
+        <div class="pl-lg-4">
+          <div class="form-group">
+            <label>About Me</label>
+            <textarea name="about" placeholder="Write About Yourself" class="form-control">{{data.about}}</textarea>
+          </div>
+        </div>
+        <div class="col-12 text-right">
+         <button class="btn btn-sm btn-primary">Submit</button>
+       </div>
+     </form>
+   </div>
+ </div>
+</div>
+</div>
+
+{% include "dashboard/footer.html" %}
+
+</div>
+
+{% endblock content %}

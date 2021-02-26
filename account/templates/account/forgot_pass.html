@@ -1,0 +1,102 @@
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
+<link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+<script src="/static/jquery.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+
+<style>
+    .spinner{
+        height:100px;width:100px;border: 10px solid gray;border-bottom:10px solid  blue;
+        animation:ani 1s linear infinite;border-radius: 50%;margin:auto
+    }
+    @keyframes ani{
+        from{transform:rotate(0deg)}
+        to{transform:rotate(360deg)}
+    }
+</style>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="my-5 p-5" style="box-shadow:0px 0px 10px black;">
+                    <h2>Reset Your Password</h2> <hr>
+                    <div id="result"></div>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>Enter Your Username</label>
+                            <input type="text" class="form-control" id="un" name="username" placeholder="Enter Username Here...">
+                        </div>
+                        <button type="button" class="btn btn-warning" onclick="getpass()" id="continue">Click to Continue</button>
+                        <div class="mt-2" style="display:none" id="spin">
+                            <div class="spinner"></div>
+                        </div>
+                    
+                        <div class="form-group" style="display:none" id="afterotp">
+                            <label>Enter OTP</label>
+                            <input type="number" class="form-control" id="uotp" placeholder="Enter OTP Here...">
+                            
+                            <button onclick="matchotp()" type="button" class="btn btn-info mt-3">Verify OTP</button>
+                        </div>
+
+                        <div style="display:none" id="changepass">
+                            <div class="form-group">
+                                <label>Enter New Password</label>
+                                <input type="password" name="npass" class="form-control" placeholder="Enter New Password...">
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="CHANGE MY PASSWORD" class="btn btn-success">
+                            </div>
+                        </div>
+                    <input type="hidden"  id="realotp">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function getpass(){
+            $("#spin").show();
+            let username=$("#un").val();
+            $.ajax({
+                url:"{% url 'reset_password' %}",
+                type:"get",
+                data:{username:username},
+                success:function(data){
+                    $("#spin").hide();
+                    if(data.status=="failed"){
+                        $("#result").html("<p class='alert alert-danger'>No user registred with this username</p>");
+                    }
+                    else if(data.status=="error"){
+                        $("#result").html("<p class='alert alert-danger'>Could not send email to "+data.email+" Something went wrong!!!</p>");
+                    }
+                    else if(data.status=="sent"){
+                        $("#result").html("<p class='alert alert-success'>An OTP sent to your registred Email ID: "+data.email+"</p>");
+                        $("#continue").hide();
+                        $("#afterotp").slideDown(1000);
+                        $("#realotp").val(data.rotp)
+                    }
+                }
+            })
+        }
+
+        function matchotp(){
+            uotp = $("#uotp").val();
+            rotp = $("#realotp").val();
+
+            if(uotp==rotp){
+                $("#afterotp").hide()
+                $("#changepass").fadeIn(1000);
+                $("#result").html("<p class='alert alert-success'>Validation Success!!!</p>");
+            }else{
+                $("#result").html("<p class='alert alert-danger'>Incorrect OTP</p>");
+            }
+        }
+    </script>
+
+    {% if status %}
+    <script>
+        alert("{{status}}");
+        window.location="/"
+    </script>
+    {% endif %}
+

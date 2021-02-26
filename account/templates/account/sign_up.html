@@ -1,0 +1,84 @@
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 px-0"  style="background:url('/static/images/2.jpg');background-size:100% 100%;">
+            <div  class="h-100" style="background:rgba(0,0,0,0.5)"></div>
+        </div>
+        <div class="col-md-6">
+            <h1>Sign Up Here</h1>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="">First Name</label>
+                            <input type="text" class="form-control" placeholder="First Name" name="first">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="">Last Name</label>
+                            <input type="text" class="form-control" placeholder="Last Name" name="last">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <p id="result"></p>
+                </div>
+                <div class="form-group">
+                    <label for="">Username</label>
+                    <input type="text" class="form-control" placeholder="Enter Username" name="uname" id="username" onkeyup="checkuser()">
+                </div>
+                <div class="form-group">
+                    <label for="">Password</label>
+                    <input type="password" class="form-control" placeholder="Enter Password" name="password">
+                </div>
+                <div class="form-group">
+                    <label for="">Email</label>
+                    <input type="email" class="form-control" placeholder="Enter Email Address" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="">Contact Number</label>
+                    <input type="number" class="form-control" placeholder="Enter Mobile Number" name="contact">
+                </div>
+                <div class="form-group">
+                    <label for="">User Type</label>
+                    <select name="utype" class="form-control">
+                        <option value="cust">I am Customer</option>
+                        <option value="sell">I am Seller</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Sign Up" class="btn btn-success" id="submitbtn">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function checkuser(){
+        let un = document.getElementById("username").value;
+        $.ajax({
+            url:"{% url 'check_user' %}",
+            type:"get",
+            data:{usern:un},
+            success:function(data){
+                if(data=="Exists"){
+                    $("#result").html("This username already taken").addClass("text-danger");
+                    $("#username").addClass("alert alert-danger");
+                    $("#submitbtn").attr("disabled","disabled");
+                }else{
+                    $("#result").html("");
+                    $("#username").removeClass("alert alert-danger")
+                    $("#submitbtn").removeAttr("disabled");
+                }
+            }
+        })
+        
+    }
+</script>
+{% if status %}
+    <script>
+        alert("{{status}}");
+        window.location="/"
+    </script>
+{% endif %}
