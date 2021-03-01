@@ -14,7 +14,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.contrib import messages
 from .models import register_table
 from django.core.mail import EmailMessage
-
+from django.db import IntegrityError
 
 
 
@@ -31,22 +31,22 @@ def register(request):
     if request.method=="POST":
         fname = request.POST["first"]
         last = request.POST["last"]
-        un = request.POST["username"]
-        pwd = request.POST["password"]
-        em = request.POST["email"]
-        con = request.POST["contact"]
+        username = request.POST["username"]
+        password = request.POST["password"]
+        email = request.POST["email"]
         
+        try:
+            usr = User.objects.create_user(username,email,password)
+            usr.first_name = fname
+            usr.last_name = last
         
-        usr = User.objects.create_user(un,em,pwd)
-        usr.first_name = fname
-        usr.last_name = last
-        
-        usr.is_staff = True
-        usr.save()
-
-        reg = register_table(user=usr, contact_number=con)
-        reg.save()
-        return render(request,"account/sign_up.html",{"status":"Mr/Miss. {} your Account created Successfully".format(fname)})
+            usr.is_staff = True
+            usr.save()
+            reg = register_table(user=usr)
+            reg.save()
+            return render(request,"account/sign_up.html",{"status":"Mr/Miss. {} your Account created Successfully".format(fname)})
+        except IntegrityError as e: 
+            return render(request,"account/sign_up.html",{"status":"Mr/Miss. {} already ".format(username)})
     return render(request,"account/sign_up.html")
 
 

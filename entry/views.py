@@ -2,11 +2,11 @@ from datetime import datetime
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-
+from django.contrib.auth.decorators import login_required
 from .forms import AddForm
 from .models import DiaryModel
 
-
+@login_required
 def entry(request):
     form = AddForm(request.POST or None)
 
@@ -45,6 +45,7 @@ def entry(request):
         }
     )
 
+@login_required
 
 def show(request):
     """
@@ -67,6 +68,7 @@ def show(request):
         }
     )
 
+@login_required
 
 def detail(request, diary_id):
     diary = get_object_or_404(DiaryModel, pk=diary_id)
@@ -82,6 +84,7 @@ def detail(request, diary_id):
         }
     )
 
+@login_required
 
 def productivity(request):
     
