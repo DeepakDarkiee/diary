@@ -1,4 +1,4 @@
-{% load staticfiles %}
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -39,7 +39,7 @@
                     active
                 {% endif %} " href="{% url 'productivity' %}">
                     <hr class="d-xl-none d-lg-none">
-                    <img src="{% static 'icons/chart-line-solid.svg' %}" height="30" width="30"
+                    <img src="/static/icons/chart-line-solid.svg" height="30" width="30"
                          alt="Productivity Chart">
                     <span class="d-xl-none d-lg-none"> &nbsp; Productivity Chart</span>
                     <hr class="d-xl-none d-lg-none">
@@ -49,7 +49,7 @@
                 <a class="nav-link mr-3 {% if add_highlight %}
                     active
                 {% endif %} " href="{% url 'entry' %}">
-                    <img src="{% static 'icons/plus-square-solid.svg' %}" height="30" width="30" alt="Add Diaries">
+                    <img src="/static/icons/plus-square-solid.svg" height="30" width="30" alt="Add Diaries">
                     <span class="d-xl-none d-lg-none"> &nbsp; Add Diaries</span>
                     <hr class="d-xl-none d-lg-none">
                 </a>
@@ -58,7 +58,7 @@
                 <a class="nav-link {% if show_highlight %}
                     active
                 {% endif %} " href="{% url 'show' %}">
-                    <img src="{% static 'icons/book-solid.svg' %}" height="30" width="30" alt="Show Diaries">
+                    <img src="/static/icons/book-solid.svg" height="30" width="30" alt="Show Diaries">
                     <span class="d-xl-none d-lg-none"> &nbsp; Show Diaries</span>
                     <hr class="d-xl-none d-lg-none">
                 </a>
@@ -68,7 +68,7 @@
                     active
                 {% endif %} " href="/user_logout/">
                     <hr class="d-xl-none d-lg-none">
-                    <img src="{% static 'icons/logout.svg' %}" height="30" width="30"
+                    <img src="/static/icons/logout.svg" height="30" width="30"
                          alt="logout">
                         
                     <span class="d-xl-none d-lg-none"> &nbsp; Logout</span>
@@ -81,8 +81,16 @@
 
 <div class="jumbotron jumbotron-fluid text-center">
     <div class="container">
-        <h1 class="display-4">{{ title }}</h1>
+        
+        {% if diaries_count != 0 %}
+        <h1 class="display-4"> {{ title|title }}   {{ diaries_count }} </h1>
+
+        {% else %}
+        <h1 class="display-4">{{ title|title }} </h1>
+        {% endif %}
+            
         <p class="lead">{{ subtitle }}</p>
+        <h3 class="btn btn-primary">Author-{{ author|title }}</h3>
     </div>
 </div>
 
@@ -100,7 +108,7 @@
 </a>
 <!-- Include the Quill library -->
 <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
-<script src="{% static 'js/quill.js' %}"></script>
+<script src="/static/js/quill.js"></script>
 
 <!-- Initialize Quill editor -->
 <script>

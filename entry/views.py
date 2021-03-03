@@ -38,10 +38,12 @@ def entry(request):
         request,
         'entry/add.html',
         {
-            'title': 'Add Entry',
+            'title': 'Write Something',
             'subtitle': 'Add what you feel and we\'ll store it for you.',
             'add_highlight': True,
+            'author':request.user.first_name+" "+request.user.last_name,
             'addform': form,
+            
         }
     )
 
@@ -54,6 +56,7 @@ def show(request):
     """
     user = request.user
     diaries = DiaryModel.objects.filter(user__pk=user.id).order_by('posted_date')
+    diaries_count=diaries.count()
     icon = True if len(diaries) == 0 else None
 
     return render(
@@ -61,10 +64,12 @@ def show(request):
         'entry/show.html',
         {
             'show_highlight': True,
-            'title': 'All Entries',
+            'title': 'Total Entries',
             'subtitle': 'It\'s all you\'ve written.',
             'diaries': reversed(diaries),
-            'icon': icon
+            'author':request.user.first_name+" "+request.user.last_name,
+            'icon': icon,
+            'diaries_count':diaries_count
         }
     )
 
@@ -80,6 +85,7 @@ def detail(request, diary_id):
             'show_highlight': True,
             'title': diary.note,
             'subtitle': diary.posted_date,
+            'author': diary.user.first_name+' '+diary.user.last_name,
             'diary': diary
         }
     )
@@ -103,6 +109,8 @@ def productivity(request):
             'title': 'Productivity Chart',
             'subtitle': 'Keep the line heading up always.',
             'data': data,
-            'icon': icon
+            'icon': icon,
+            'author':request.user.first_name+" "+request.user.last_name,
+
         }
     )

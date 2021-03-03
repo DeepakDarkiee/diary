@@ -1,5 +1,4 @@
 {% extends 'entry/base.html' %}
-{% load staticfiles %}
 {% block content %}
 
     <div class="container">
@@ -8,7 +7,7 @@
 
                 <div class="card col-md-3 m-3">
                     <div class="card-body">
-                        <h5 class="card-title">{{ diary.note }}</h5>
+                        <h5 class="card-title">{{ diary.note|title }}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">{{ diary.posted_date }}</h6>
                         <p class="card-text">
                             {# To render HTML contents without escaping. #}
@@ -29,7 +28,7 @@
         {% if icon %}
             <div class="text-center">
                 <p class="text-muted">There's nothing to show</p>
-                <img height="300" src="{% static 'icons/empty-easter-basket.jpg' %}" alt="Nothing to Show">
+                <img height="300" src="/static/icons/empty-easter-basket.jpg" alt="Nothing to Show">
             </div>
         {% endif %}
     </div>
