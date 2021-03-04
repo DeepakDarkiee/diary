@@ -17,15 +17,17 @@ def entry(request):
             title = request.POST['title']
             content = request.POST['content']
             productivity = request.POST['productivity']
-
+            status = request.POST['status']
             todays_diary = Post()
             todays_diary.title = title
             
             todays_diary.content = content
             todays_diary.productivity = productivity
+            todays_diary.status = status
             todays_diary.user=user
 
             todays_diary.save()
+
 
         """
             Clear the form and return.

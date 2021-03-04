@@ -68,7 +68,7 @@ def user_logout(request):
     res =  HttpResponseRedirect("/")
     res.delete_cookie("user_id")
     res.delete_cookie("date_login")
-    messages.success(request,"Successfull Logged Out")
+    messages.success(request,"Successfully Logged Out")
     return res
 
 

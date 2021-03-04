@@ -32,3 +32,8 @@ class AddForm(forms.Form):
     content = forms.CharField(
         widget=SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '600px'}}))
     
+    STATUS_CHOICES =( 
+       (1, "Publish"),(0, "Draft") )
+
+    status =  forms.ChoiceField(choices = STATUS_CHOICES,widget=forms.Select(attrs={'class': 'form-control'})       )
+    
