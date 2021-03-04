@@ -4,6 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- include summernote css/js-->
+<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.3/summernote.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.3/summernote.js"></script>
+
+
 
     <!-- Include Quill stylesheet -->
     <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
@@ -26,7 +31,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="{% url 'entry' %}">Diary App</a>
+    <a class="navbar-brand" href="/">Diary App</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -83,7 +88,7 @@
     <div class="container">
         
         {% if diaries_count != 0 %}
-        <h1 class="display-4"> {{ title|title }}   {{ diaries_count }} </h1>
+        <h1 class="display-4">  {{ title|title }}   {{ diaries_count }} </h1>
 
         {% else %}
         <h1 class="display-4">{{ title|title }} </h1>

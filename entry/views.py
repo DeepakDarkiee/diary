@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import AddForm
-from .models import DiaryModel
+from .models import  Post
 
 @login_required
 def entry(request):
@@ -14,14 +14,13 @@ def entry(request):
 
         if form.is_valid():
             user=request.user
-            note = request.POST['note']
+            title = request.POST['title']
             content = request.POST['content']
-            posted_date = datetime.now()
             productivity = request.POST['productivity']
 
-            todays_diary = DiaryModel()
-            todays_diary.note = note
-            todays_diary.posted_date = posted_date
+            todays_diary = Post()
+            todays_diary.title = title
+            
             todays_diary.content = content
             todays_diary.productivity = productivity
             todays_diary.user=user
@@ -44,18 +43,15 @@ def entry(request):
             'author':request.user.first_name+" "+request.user.last_name,
             'addform': form,
             
+            
         }
     )
 
 @login_required
 
 def show(request):
-    """
-        We need to show the diaries sorted by date posted in descending order
-        5:32 PM 10/19/19 by Arjun Adhikari
-    """
     user = request.user
-    diaries = DiaryModel.objects.filter(user__pk=user.id).order_by('posted_date')
+    diaries = Post.objects.filter(user__pk=user.id).order_by('created_on')
     diaries_count=diaries.count()
     icon = True if len(diaries) == 0 else None
 
@@ -76,15 +72,15 @@ def show(request):
 @login_required
 
 def detail(request, diary_id):
-    diary = get_object_or_404(DiaryModel, pk=diary_id)
+    diary = get_object_or_404(Post, pk=diary_id)
 
     return render(
         request,
         'entry/detail.html',
         {
             'show_highlight': True,
-            'title': diary.note,
-            'subtitle': diary.posted_date,
+            'title': diary.title,
+            'subtitle': diary.created_on,
             'author': diary.user.first_name+' '+diary.user.last_name,
             'diary': diary
         }
@@ -99,7 +95,7 @@ def productivity(request):
         11:24 PM 10/19/19 by Arjun Adhikari
     """
     user = request.user
-    data = DiaryModel.objects.filter(user__pk=user.id).order_by('posted_date')[:10]
+    data = Post.objects.filter(user__pk=user.id).order_by('created_on')[:10]
     icon = True if len(data) == 0 else None
 
     return render(

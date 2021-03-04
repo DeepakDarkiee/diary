@@ -1,5 +1,5 @@
 from django import forms
-
+from django_summernote.widgets import SummernoteInplaceWidget,SummernoteWidget
 
 class AddForm(forms.Form):
 
@@ -18,7 +18,7 @@ class AddForm(forms.Form):
         required=True
     )
 
-    note = forms.CharField(
+    title = forms.CharField(
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Name this day (anything you like)',
@@ -30,13 +30,5 @@ class AddForm(forms.Form):
     )
 
     content = forms.CharField(
-        widget=forms.Textarea(
-            {
-                'placeholder': 'Write what you feel...',
-                'class': " form-control quilljs-textarea",
-                'row': "15"
-            }
-        ),
-        label='',
-        required=True
-    )
+        widget=SummernoteWidget(attrs={'summernote': {'width': '100%', 'height': '600px'}}))
+    

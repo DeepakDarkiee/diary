@@ -7,12 +7,12 @@
 
                 <div class="card col-md-3 m-3">
                     <div class="card-body">
-                        <h5 class="card-title">{{ diary.note|title }}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">{{ diary.posted_date }}</h6>
+                        <h5 class="card-title">{{ diary.title|title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ diary.created_on }}</h6>
                         <p class="card-text">
                             {# To render HTML contents without escaping. #}
                             {% autoescape off %}
-                                {{ diary.summary }}
+                                {{ diary.content }}
                             {% endautoescape %}
                         </p>
 

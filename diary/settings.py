@@ -43,8 +43,20 @@ INSTALLED_APPS = [
     'entry.apps.EntryConfig',
     'account',
     'admins',
+    'crispy_forms',
+    'django_summernote',
 ]
 
+
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -129,7 +141,7 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
+X_FRAME_OPTIONS = "SAMEORIGIN"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
@@ -152,5 +164,5 @@ MEDIA_URL = '/media/'
 prod_db  =  dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(prod_db)
 
-
+SUMMERNOTE_THEME = 'bs4'
 # django_heroku.settings(locals())
