@@ -21,7 +21,7 @@ class AddForm(forms.Form):
     title = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                'placeholder': 'Name this day (anything you like)',
+                'placeholder': 'Name this Article (anything you like)',
                 'class': " form-control mb-3",
             }
         ),

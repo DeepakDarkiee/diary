@@ -20,7 +20,7 @@ class SearchResultsView(ListView):
     def get_queryset(self):
         query = self.request.GET.get('q') # new
         object_list = Post.objects.filter(
-            Q(title__icontains=query) | Q(content__icontains=query)
+            Q(title__icontains=query) | Q(content__icontains=query) 
         )
         return object_list
 
@@ -30,9 +30,9 @@ class SearchResultsView(ListView):
 #     template_name = 'post_detail.html'
 
 
-def post_detail(request, slug):
+def post_detail(request, id):
     template_name = "post_detail.html"
-    post = get_object_or_404(Post, slug=slug)
+    post = get_object_or_404(Post, id=id)
     comments = post.comments.filter(active=True).order_by("-created_on")
     new_comment = None
     # Comment posted

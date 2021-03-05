@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -27,6 +27,7 @@ def entry(request):
             todays_diary.user=user
 
             todays_diary.save()
+            messages.success(request,"Article Created Successfully!")
 
 
         """

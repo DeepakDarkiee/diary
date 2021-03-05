@@ -17,13 +17,20 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-
+from django.contrib.sitemaps.views import sitemap
+from admins.sitemaps import PostSitemap
+sitemaps = {
+    "posts": PostSitemap,
+}
 urlpatterns = [
+    
     path('admin/', admin.site.urls),
     path('', include('entry.urls')),
     path('', include('account.urls')),
     path('', include('admins.urls')),
     path("summernote/", include("django_summernote.urls")),
+    path("sitemap.xml", sitemap, {"sitemaps": sitemaps}, name="sitemap"),
+
 
 ]
 if settings.DEBUG:
